@@ -1,0 +1,14 @@
+# 1. 제스처 인식 (버전 고정 필수)
+numpy<2.0.0
+protobuf<5.0.0
+opencv-python==4.9.0.80
+opencv-contrib-python==4.9.0.80
+mediapipe
+tensorflow
+
+# 2. 음성 인식 및 LLM 
+ollama
+sounddevice
+scipy
+openai-whisper
+pyttsx3

@@ -1,0 +1,4 @@
+string text       # The sentence to speak via TTS
+---
+bool success       # True if speech was queued successfully
+string message     # Status / error description
