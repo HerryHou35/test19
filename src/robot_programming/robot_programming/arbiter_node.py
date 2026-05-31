@@ -6,7 +6,7 @@ import time
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String, Bool
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import TwistStamped
 from robot_programming_interfaces.srv import Speak
 
 
@@ -16,7 +16,7 @@ class ArbiterNode(Node):
 
     - Subscribes to /voice_tasks  (String / JSON motion sequence)
     - Subscribes to /lidar_warning (Bool   / obstacle alert)
-    - Publishes  to /cmd_vel      (Twist / motor commands)
+    - Publishes  to /cmd_vel      (TwistStamped / motor commands)
 
     SERVICE CLIENT — calls /robot_speak for status announcements.
 
@@ -27,7 +27,7 @@ class ArbiterNode(Node):
     def __init__(self):
         super().__init__('arbiter_node')
 
-        self.cmd_pub = self.create_publisher(Twist, '/cmd_vel', 10)
+        self.cmd_pub = self.create_publisher(TwistStamped, '/cmd_vel', 10)
 
         self.voice_sub = self.create_subscription(
             String, '/voice_tasks', self._voice_callback, 10
@@ -173,7 +173,7 @@ class ArbiterNode(Node):
         # Speak what this specific task is
         self._speak(self._describe_task(task))
 
-        twist = Twist()
+        twist = TwistStamped()
         duration = 0.0
 
         if task_type == 'move_forward':
@@ -236,7 +236,7 @@ class ArbiterNode(Node):
             self._active_timer = None
 
     def _stop_robot(self):
-        self.cmd_pub.publish(Twist())
+        self.cmd_pub.publish(TwistStamped())
         self.get_logger().info('Robot stopped.')
 
 
